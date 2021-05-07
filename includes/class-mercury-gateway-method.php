@@ -295,7 +295,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
         $cr = filter_input(INPUT_POST, 'crypto') ?? null;
         $cur = filter_input(INPUT_POST, 'currency') ?? null;
 
-        if(!is_null($em) && !is_null($cr) && !is_null($cur)) {
+        if($em !== null && $cr !== null && $cur !== null) {
             $api_key = new APIKey($this->publishable_key, $this->private_key);
             $adapter = new Adapter($api_key, 'https://api-way.mercurydev.tk');
             $endpoint = new Transaction($adapter);
