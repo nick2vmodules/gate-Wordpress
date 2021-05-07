@@ -4,7 +4,7 @@ if (typeof mercuryParam != "undefined") {
     merParam = mercuryParam;
 }
 
-var sdk = new MercurySDK({
+let sdk = new MercurySDK({
     checkoutUrl: "/wc-api/create_transaction",
     statusUrl: "/wc-api/status",
     checkStatusInterval: parseInt(merParam.time, 2),
@@ -17,18 +17,18 @@ var sdk = new MercurySDK({
     }
 });
 
-var status = false;
+let status = false;
 
 jQuery(function(jQuery){
 
     function successCallback(data) {
-        var checkoutForm = jQuery( "form.woocommerce-checkout");
+        let checkoutForm = jQuery( "form.woocommerce-checkout");
         checkoutForm.find("#payment_method_mercury_validate").detach();
         checkoutForm.submit();
     }
 
     function qrRequest() {
-        var errorCount = jQuery(".woocommerce-error li").length;
+        let errorCount = jQuery(".woocommerce-error li").length;
 
         if (errorCount === 1) { // Validation Passed (Just the Fake Error I Created Exists)
             jQuery(".woocommerce-error").detach();
@@ -49,7 +49,7 @@ jQuery(function(jQuery){
         } else { // Validation Failed (Real Errors Exists, Remove the Fake One)
 
             jQuery(".woocommerce-error li").each(function(){
-                var errorText = jQuery(this).find(".mercury_fake_error").text();
+                let errorText = jQuery(this).find(".mercury_fake_error").text();
                 if (errorText === "mercury_fake_error"){
                     jQuery(this).css("display", "none");
                 }
