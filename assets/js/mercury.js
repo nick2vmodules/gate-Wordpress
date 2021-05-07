@@ -1,7 +1,7 @@
+let merParam = {};
+
 if (typeof mercuryParam != "undefined") {
     merParam = mercuryParam;
-} else {
-    merParam = {};
 }
 
 var sdk = new MercurySDK({
