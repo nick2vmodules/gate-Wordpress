@@ -1,17 +1,21 @@
 if (typeof mercuryParam != "undefined") {
-     sdk = new MercurySDK({
-        checkoutUrl: "/wc-api/create_transaction",
-        statusUrl: "/wc-api/status",
-        checkStatusInterval: parseInt(mercuryParam.time, 2),
-        mount: "#mercury-cash",
-        lang: "en",
-        limits: {
-            BTC: mercuryParam.btc,
-            ETH: mercuryParam.eth,
-            DASH: mercuryParam.dash
-        }
-    });
+    merParam = mercuryParam;
+} else {
+    merParam = {};
 }
+
+var sdk = new MercurySDK({
+    checkoutUrl: "/wc-api/create_transaction",
+    statusUrl: "/wc-api/status",
+    checkStatusInterval: parseInt(merParam.time, 2),
+    mount: "#mercury-cash",
+    lang: "en",
+    limits: {
+        BTC: merParam.btc,
+        ETH: merParam.eth,
+        DASH: merParam.dash
+    }
+});
 
 var status = false;
 
@@ -30,8 +34,8 @@ jQuery(function(jQuery){
             jQuery(".woocommerce-error").detach();
             jQuery( "html, body").stop();
             let mail = jQuery("#billing_email").val(),
-                price = mercuryParam.cart_price,
-                currency = mercuryParam.currency;
+                price = merParam.cart_price,
+                currency = merParam.currency;
 
             sdk.checkout(price, currency, mail);
 
