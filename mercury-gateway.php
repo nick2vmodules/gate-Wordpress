@@ -36,7 +36,8 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
-require_once ABSPATH . 'wp-admin/includes/plugin.php';
+$plugin_path = ABSPATH . 'wp-admin/includes/plugin.php';
+require_once $plugin_path;
 
 function sample_admin_notice__error() {
     $class = 'notice notice-error';
