@@ -41,7 +41,7 @@ require_once ABSPATH . 'wp-admin/includes/plugin.php';
 function sample_admin_notice__error() {
     $class = 'notice notice-error';
     $message = sprintf( esc_html__( 'Mercury Gateway requires the WooCommerce plugin to be installed and active. You can download %s here.', 'sample-text-domain' ), '<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">WooCommerce</a>' );
-    esc_html(printf( '<div class="%1$s"><p><strong>%2$s</strong></p></div>', esc_attr( $class ), $message ));
+    wp_sprintf( '<div class="%1$s"><p><strong>%2$s</strong></p></div>', esc_attr( $class ), $message );
 }
 if ( !is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
     add_action( 'admin_notices', 'sample_admin_notice__error' );
