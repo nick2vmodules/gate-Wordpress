@@ -101,7 +101,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
     }
 
     public function add_fake_error() {
-        if (isset($_POST['payment_method_mercury_validate']) || $_POST['payment_method_mercury_validate'] == "1") {
+        if (filter_input(INPUT_POST, 'payment_method_mercury_validate') == "1") {
             wc_add_notice("<span class='mercury_fake_error'>mercury_fake_error</span>", 'error');
         }
     }
@@ -275,8 +275,8 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
     }
 
     public function checkStatus(){
-        if(isset($_POST['uuid'])) {
-            $uuid = $_POST['uuid'];
+        if(filter_input(INPUT_POST, 'uuid')) {
+            $uuid = filter_input(INPUT_POST, 'uuid');
             $api_key = new APIKey($this->publishable_key, $this->private_key);
             $adapter = new Adapter($api_key, 'https://api-way.mercurydev.tk');
             $endpoint = new Transaction($adapter);
@@ -291,17 +291,21 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
     }
 
     public function createTransaction(){
-        if(isset($_POST['email']) && isset($_POST['crypto']) && isset($_POST['currency'])) {
+        $em = filter_input(INPUT_POST, 'uuid') ?? null;
+        $cr = filter_input(INPUT_POST, 'crypto') ?? null;
+        $cur = filter_input(INPUT_POST, 'currency') ?? null;
+
+        if(!is_null($em) && !is_null($cr) && !is_null($cur)) {
             $api_key = new APIKey($this->publishable_key, $this->private_key);
             $adapter = new Adapter($api_key, 'https://api-way.mercurydev.tk');
             $endpoint = new Transaction($adapter);
 
 
-            $crypto_name = $this->crypto[$_POST['crypto']];
+            $crypto_name = $this->crypto[$cr];
             $data = [
-                'email' => $_POST['email'],
-                'crypto' => $_POST['crypto'],
-                'fiat' => $_POST['currency'],
+                'email' => $em,
+                'crypto' => $cr,
+                'fiat' => $cur,
                 'amount' => (float) WC()->cart->total,
                 'tip' => 0,
             ];
@@ -314,7 +318,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
             $amount = $transaction->getCryptoAmount();
             $qrCodeText .= $crypto_name . ":" . $address . "?";
             $qrCodeText .= "amount=" . $amount . "&";
-            $qrCodeText .= "cryptoCurrency=" . $_POST['crypto'];
+            $qrCodeText .= "cryptoCurrency=" . $cr;
 
             wp_send_json_success([
                 'uuid' => $transaction->getUuid(),
@@ -324,7 +328,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
                 'address' => $address,
                 'networkFee' => $transaction->getFee(),
                 'exchangeRate' => $transaction->getRate(),
-                'cryptoCurrency' => $_POST['crypto'],
+                'cryptoCurrency' => $cr,
                 'qrCodeText' => $qrCodeText,
             ]);
         }
