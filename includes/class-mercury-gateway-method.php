@@ -60,7 +60,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
         $this->getMercuryCur();
 
         add_action('wp_footer', function(){
-             printf('<div id="mercury-cash"></div>');
+             print_r('<div id="mercury-cash"></div>');
         });
 
         // This action hook saves the settings
