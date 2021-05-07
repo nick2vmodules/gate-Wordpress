@@ -23,7 +23,7 @@ jQuery(function(jQuery){
     function qrRequest() {
         var error_count = jQuery('.woocommerce-error li').length;
 
-        if (error_count == 1) { // Validation Passed (Just the Fake Error I Created Exists)
+        if (error_count === 1) { // Validation Passed (Just the Fake Error I Created Exists)
             jQuery('.woocommerce-error').detach();
             jQuery( 'html, body' ).stop();
             let mail = jQuery('#billing_email').val(),
@@ -50,7 +50,7 @@ jQuery(function(jQuery){
         }
         //
         return false;
-    };
+    }
 
 
     var checkout_form = jQuery('form.woocommerce-checkout');
@@ -66,7 +66,6 @@ jQuery(function(jQuery){
             }
             return true;
         }
-
         return true;
     });
 
