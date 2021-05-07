@@ -101,7 +101,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
     }
 
     public function add_fake_error() {
-        if ($_POST['payment_method_mercury_validate'] == "1") {
+        if (isset($_POST['payment_method_mercury_validate']) || $_POST['payment_method_mercury_validate'] == "1") {
             wc_add_notice("<span class='mercury_fake_error'>mercury_fake_error</span>", 'error');
         }
     }
@@ -275,57 +275,59 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
     }
 
     public function checkStatus(){
-        $uuid = $_POST['uuid'];
+        if(isset($_POST['uuid'])) {
+            $uuid = $_POST['uuid'];
+            $api_key = new APIKey($this->publishable_key, $this->private_key);
+            $adapter = new Adapter($api_key, 'https://api-way.mercurydev.tk');
+            $endpoint = new Transaction($adapter);
 
-        $api_key = new APIKey($this->publishable_key, $this->private_key);
-        $adapter = new Adapter($api_key, 'https://api-way.mercurydev.tk');
-        $endpoint = new Transaction($adapter);
+            $status = $endpoint->status($uuid);
 
-        $status = $endpoint->status($uuid);
-
-        wp_send_json_success([
-            'status' => $status->getStatus(),
-            'confirmations' => $status->getConfirmations(),
-        ]);
+            wp_send_json_success([
+                'status' => $status->getStatus(),
+                'confirmations' => $status->getConfirmations(),
+            ]);
+        }
     }
 
     public function createTransaction(){
+        if(isset($_POST['email']) && isset($_POST['crypto']) && isset($_POST['currency'])) {
+            $api_key = new APIKey($this->publishable_key, $this->private_key);
+            $adapter = new Adapter($api_key, 'https://api-way.mercurydev.tk');
+            $endpoint = new Transaction($adapter);
 
-        $api_key = new APIKey($this->publishable_key, $this->private_key);
-        $adapter = new Adapter($api_key, 'https://api-way.mercurydev.tk');
-        $endpoint = new Transaction($adapter);
 
+            $crypto_name = $this->crypto[$_POST['crypto']];
+            $data = [
+                'email' => $_POST['email'],
+                'crypto' => $_POST['crypto'],
+                'fiat' => $_POST['currency'],
+                'amount' => (float) WC()->cart->total,
+                'tip' => 0,
+            ];
+            $transaction = $endpoint->create($data);
 
-        $crypto_name = $this->crypto[$_POST['crypto']];
-        $data = [
-            'email' => $_POST['email'],
-            'crypto' => $_POST['crypto'],
-            'fiat' => $_POST['currency'],
-            'amount' => (float) WC()->cart->total,
-            'tip' => 0,
-        ];
-        $transaction = $endpoint->create($data);
+            $endpoint->process($transaction->getUuid());
 
-        $endpoint->process($transaction->getUuid());
+            $qrCodeText = "";
+            $address = $transaction->getAddress();
+            $amount = $transaction->getCryptoAmount();
+            $qrCodeText .= $crypto_name . ":" . $address . "?";
+            $qrCodeText .= "amount=" . $amount . "&";
+            $qrCodeText .= "cryptoCurrency=" . $_POST['crypto'];
 
-        $qrCodeText = "";
-        $address = $transaction->getAddress();
-        $amount = $transaction->getCryptoAmount();
-        $qrCodeText .= $crypto_name . ":" . $address . "?";
-        $qrCodeText .= "amount=" . $amount . "&";
-        $qrCodeText .= "cryptoCurrency=" . $_POST['crypto'];
-
-        wp_send_json_success([
-            'uuid' => $transaction->getUuid(),
-            'cryptoAmount' => $amount,
-            'fiatIsoCode' => $transaction->getFiatIsoCode(),
-            'fiatAmount' => $transaction->getFiatAmount(),
-            'address' => $address,
-            'networkFee' => $transaction->getFee(),
-            'exchangeRate' => $transaction->getRate(),
-            'cryptoCurrency' => $_POST['crypto'],
-            'qrCodeText' => $qrCodeText,
-        ]);
+            wp_send_json_success([
+                'uuid' => $transaction->getUuid(),
+                'cryptoAmount' => $amount,
+                'fiatIsoCode' => $transaction->getFiatIsoCode(),
+                'fiatAmount' => $transaction->getFiatAmount(),
+                'address' => $address,
+                'networkFee' => $transaction->getFee(),
+                'exchangeRate' => $transaction->getRate(),
+                'cryptoCurrency' => $_POST['crypto'],
+                'qrCodeText' => $qrCodeText,
+            ]);
+        }
     }
 
 }
