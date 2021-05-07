@@ -16,7 +16,8 @@ class Mercury_Gateway
 
     public function __construct()
     {
-        $this->getModules('includes/class-mercury-gateway-method.php');
+        $module = MERCURY_GATEWAY_PLUGIN_DIR . 'includes/class-mercury-gateway-method.php';
+        require_once $module;
         add_action('init', array($this, 'mercury_gateway_init'), 5);
         add_filter( 'woocommerce_payment_gateways', array($this, 'addGateway') );
     }
@@ -40,11 +41,5 @@ class Mercury_Gateway
     {
         $gateways[] = 'Mercury_Gateway_Method';
         return $gateways;
-    }
-
-    public function getModules($mod)
-    {
-        $module = MERCURY_GATEWAY_PLUGIN_DIR . $mod;
-        require_once $module;
     }
 }
