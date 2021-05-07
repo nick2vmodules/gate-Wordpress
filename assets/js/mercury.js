@@ -1,15 +1,17 @@
-var sdk = new MercurySDK({
-    checkoutUrl: "/wc-api/create_transaction",
-    statusUrl: "/wc-api/status",
-    checkStatusInterval: parseInt(mercury_param.time, 2),
-    mount: "#mercury-cash",
-    lang: "en",
-    limits: {
-        BTC: mercury_param.btc,
-        ETH: mercury_param.eth,
-        DASH: mercury_param.dash
-    }
-});
+if (typeof mercury_param != "undefined") {
+    var sdk = new MercurySDK({
+        checkoutUrl: "/wc-api/create_transaction",
+        statusUrl: "/wc-api/status",
+        checkStatusInterval: parseInt(mercury_param.time, 2),
+        mount: "#mercury-cash",
+        lang: "en",
+        limits: {
+            BTC: mercury_param.btc,
+            ETH: mercury_param.eth,
+            DASH: mercury_param.dash
+        }
+    });
+}
 var status = false;
 
 jQuery(function(jQuery){
@@ -33,7 +35,7 @@ jQuery(function(jQuery){
                 sdk.checkout(price, currency, mail);
 
                 sdk.on("close", (obj) => {
-                    if(obj.status && (obj.status == "TRANSACTION_APROVED" || obj.status == "TRANSACTION_RECEIVED")) {
+                    if(obj.status && (obj.status === "TRANSACTION_APROVED" || obj.status === "TRANSACTION_RECEIVED")) {
                         status = obj.status;
                         successCallback();
                     }
@@ -42,7 +44,7 @@ jQuery(function(jQuery){
         } else { // Validation Failed (Real Errors Exists, Remove the Fake One)
 
             jQuery('.woocommerce-error li').each(function(){
-                var error_text = jQuery(this).find('.mercury_fake_error').text();
+                var error_text = jQuery(this).find(".mercury_fake_error").text();
                 if (error_text == "mercury_fake_error"){
                     jQuery(this).css("display", "none");
                 }
@@ -57,9 +59,9 @@ jQuery(function(jQuery){
 
     checkoutForm.on("checkout_place_order", function () {
         if(status === "false" || status === false) {
-            if(jQuery('#payment_method_mercury').is(":checked")) {
-                checkoutForm.append('<input type="hidden" id="payment_method_mercury_validate" name="payment_method_mercury_validate"' +
-                    ' value="1">');
+            if(jQuery("#payment_method_mercury").is(":checked")) {
+                checkoutForm.append("<input type='hidden' id='payment_method_mercury_validate' name='payment_method_mercury_validate'" +
+                    " value='1'>");
             } else {
                 checkoutForm.find("#payment_method_mercury_validate").detach();
             }
