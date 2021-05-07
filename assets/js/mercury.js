@@ -1,14 +1,14 @@
-if (typeof mercury_param != "undefined") {
+if (typeof mercuryParam != "undefined") {
     var sdk = new MercurySDK({
         checkoutUrl: "/wc-api/create_transaction",
         statusUrl: "/wc-api/status",
-        checkStatusInterval: parseInt(mercury_param.time, 2),
+        checkStatusInterval: parseInt(mercuryParam.time, 2),
         mount: "#mercury-cash",
         lang: "en",
         limits: {
-            BTC: mercury_param.btc,
-            ETH: mercury_param.eth,
-            DASH: mercury_param.dash
+            BTC: mercuryParam.btc,
+            ETH: mercuryParam.eth,
+            DASH: mercuryParam.dash
         }
     });
 }
@@ -29,8 +29,8 @@ jQuery(function(jQuery){
             jQuery(".woocommerce-error").detach();
             jQuery( "html, body").stop();
             let mail = jQuery("#billing_email").val(),
-                price = mercury_param.cart_price,
-                currency = mercury_param.currency;
+                price = mercuryParam.cart_price,
+                currency = mercuryParam.currency;
 
                 sdk.checkout(price, currency, mail);
 
@@ -44,8 +44,8 @@ jQuery(function(jQuery){
         } else { // Validation Failed (Real Errors Exists, Remove the Fake One)
 
             jQuery('.woocommerce-error li').each(function(){
-                var error_text = jQuery(this).find(".mercury_fake_error").text();
-                if (error_text == "mercury_fake_error"){
+                var errorText = jQuery(this).find(".mercury_fake_error").text();
+                if (errorText === "mercury_fake_error"){
                     jQuery(this).css("display", "none");
                 }
             });

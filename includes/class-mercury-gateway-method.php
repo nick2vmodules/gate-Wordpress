@@ -75,7 +75,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
         wp_enqueue_script('woocommerce-mercury', $script_url, array('jquery'),  '1', true  );
         wp_enqueue_style('woocommerce-mercury', $style_url);
 
-        wp_localize_script( 'woocommerce-mercury', 'mercury_param', array(
+        wp_localize_script( 'woocommerce-mercury', 'mercuryParam', array(
             'time' => $this->pending_set,
             'btc' => $this->BTC,
             'eth' => $this->ETH,
