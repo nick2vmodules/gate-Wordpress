@@ -14,10 +14,6 @@ use MercuryCash\SDK\Endpoints\Transaction;
 
 class Mercury_Gateway_Method extends WC_Payment_Gateway
 {
-    const PENDING = 'Pending';
-    const PROCESS = 'Processing';
-    const REFOUND = 'Refunded';
-
     public $crypto = [
         'ETH' => 'ethereum',
         'BTC' => 'bitcoin',
@@ -104,7 +100,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
         add_action('woocommerce_after_checkout_validation', array($this, 'add_fake_error'));
     }
 
-    public function add_fake_error($posted) {
+    public function add_fake_error() {
         if ($_POST['payment_method_mercury_validate'] == "1") {
             wc_add_notice("<span class='mercury_fake_error'>mercury_fake_error</span>", 'error');
         }
@@ -120,7 +116,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
             $endpoint = new Transaction($adapter);
 
             try {
-                $status_object = $endpoint->status(1);
+                $endpoint->status(1);
             } catch (\GuzzleHttp\Exception\ServerException $e) {
                 $response = $e->getResponse();
                 $this->add_error("Wrong keys for integration");
@@ -270,9 +266,10 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
 
         foreach ($data as $key => $arr) {
             if ($key == 'exchange') continue;
-            $data[$key]['cart_amount'] = (float) $order_price;
-            $data[$key]['minprice'] = (float) $this->{$key};
-            $data[$key]['shop_currency'] = get_option('woocommerce_currency');
+            $arr['cart_amount'] = (float) $order_price;
+            $arr['minprice'] = (float) $this->{$key};
+            $arr['shop_currency'] = get_option('woocommerce_currency');
+            $data[$key] = $arr;
         }
         wp_send_json_success($data);
     }
