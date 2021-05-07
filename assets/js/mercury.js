@@ -56,7 +56,6 @@ jQuery(function(jQuery){
     var checkout_form = jQuery('form.woocommerce-checkout');
 
     checkout_form.on('checkout_place_order', function () {
-        console.log(status);
         if(status === 'false' || status === false) {
             if(jQuery('#payment_method_mercury').is(':checked')) {
                 checkout_form.append('<input type="hidden" id="payment_method_mercury_validate" name="payment_method_mercury_validate"' +
