@@ -291,21 +291,21 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
     }
 
     public function createTransaction(){
-        $em = filter_input(INPUT_POST, 'uuid') ?? null;
-        $cr = filter_input(INPUT_POST, 'crypto') ?? null;
-        $cur = filter_input(INPUT_POST, 'currency') ?? null;
+        $uuid = filter_input(INPUT_POST, 'uuid') ?? null;
+        $crypto = filter_input(INPUT_POST, 'crypto') ?? null;
+        $currency = filter_input(INPUT_POST, 'currency') ?? null;
 
-        if($em !== null && $cr !== null && $cur !== null) {
+        if($uuid !== null && $crypto !== null && $currency !== null) {
             $api_key = new APIKey($this->publishable_key, $this->private_key);
             $adapter = new Adapter($api_key, 'https://api-way.mercurydev.tk');
             $endpoint = new Transaction($adapter);
 
 
-            $crypto_name = $this->crypto[$cr];
+            $crypto_name = $this->crypto[$crypto];
             $data = [
-                'email' => $em,
-                'crypto' => $cr,
-                'fiat' => $cur,
+                'email' => $uuid,
+                'crypto' => $crypto,
+                'fiat' => $currency,
                 'amount' => (float) WC()->cart->total,
                 'tip' => 0,
             ];
@@ -318,7 +318,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
             $amount = $transaction->getCryptoAmount();
             $qrCodeText .= $crypto_name . ":" . $address . "?";
             $qrCodeText .= "amount=" . $amount . "&";
-            $qrCodeText .= "cryptoCurrency=" . $cr;
+            $qrCodeText .= "cryptoCurrency=" . $crypto;
 
             wp_send_json_success([
                 'uuid' => $transaction->getUuid(),
@@ -328,7 +328,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
                 'address' => $address,
                 'networkFee' => $transaction->getFee(),
                 'exchangeRate' => $transaction->getRate(),
-                'cryptoCurrency' => $cr,
+                'cryptoCurrency' => $crypto,
                 'qrCodeText' => $qrCodeText,
             ]);
         }

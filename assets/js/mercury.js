@@ -15,15 +15,15 @@ var status = false;
 jQuery(function(jQuery){
 
     function successCallback(data) {
-        var checkout_form = jQuery( "form.woocommerce-checkout");
-            checkout_form.find("#payment_method_mercury_validate").detach();
-            checkout_form.submit();
+        var checkoutForm = jQuery( "form.woocommerce-checkout");
+            checkoutForm.find("#payment_method_mercury_validate").detach();
+            checkoutForm.submit();
     }
 
     function qrRequest() {
-        var error_count = jQuery(".woocommerce-error li").length;
+        var errorCount = jQuery(".woocommerce-error li").length;
 
-        if (error_count === 1) { // Validation Passed (Just the Fake Error I Created Exists)
+        if (errorCount === 1) { // Validation Passed (Just the Fake Error I Created Exists)
             jQuery(".woocommerce-error").detach();
             jQuery( "html, body").stop();
             let mail = jQuery("#billing_email").val(),
@@ -53,15 +53,15 @@ jQuery(function(jQuery){
     }
 
 
-    var checkout_form = jQuery('form.woocommerce-checkout');
+    var checkoutForm = jQuery('form.woocommerce-checkout');
 
-    checkout_form.on("checkout_place_order", function () {
+    checkoutForm.on("checkout_place_order", function () {
         if(status === "false" || status === false) {
             if(jQuery('#payment_method_mercury').is(":checked")) {
-                checkout_form.append('<input type="hidden" id="payment_method_mercury_validate" name="payment_method_mercury_validate"' +
+                checkoutForm.append('<input type="hidden" id="payment_method_mercury_validate" name="payment_method_mercury_validate"' +
                     ' value="1">');
             } else {
-                checkout_form.find("#payment_method_mercury_validate").detach();
+                checkoutForm.find("#payment_method_mercury_validate").detach();
             }
             return true;
         }
