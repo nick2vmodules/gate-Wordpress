@@ -42,7 +42,7 @@ require_once $plugin_path;
 function sample_admin_notice__error() {
     $class = 'notice notice-error';
     $message = sprintf( esc_html__( 'Mercury Gateway requires the WooCommerce plugin to be installed and active. You can download %s here.', 'sample-text-domain' ), '<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">WooCommerce</a>' );
-    printf( '<div class="%1$s"><p><strong>%2$s</strong></p></div>', esc_attr( $class ), $message );
+    printf( '<div class="%1$s"><p><strong>%2$s</strong></p></div>', esc_attr( $class ), esc_html($message));
 }
 if ( !is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
     add_action( 'admin_notices', 'sample_admin_notice__error' );
