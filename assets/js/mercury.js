@@ -1,7 +1,7 @@
 var sdk = new MercurySDK({
     checkoutUrl: '/wc-api/create_transaction',
     statusUrl: '/wc-api/status',
-    checkStatusInterval: parseInt(mercury_param.time),
+    checkStatusInterval: parseInt(mercury_param.time, 2),
     mount: '#mercury-cash',
     lang: 'en',
     limits: {
