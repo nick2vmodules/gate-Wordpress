@@ -68,8 +68,8 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
 
         //mercury_assets
         $script_url = MERCURY_GATEWAY_URL . "assets/js/mercury.js";
-        $script_url_qr = MERCURY_GATEWAY_URL . "mercury-cash-react/build/static/js/main.9c786243.js";
-        $style_url = MERCURY_GATEWAY_URL . "mercury-cash-react/build/static/css/main.5b50619d.css";
+        $script_url_qr = MERCURY_GATEWAY_URL . "mercury-cash-react/build/static/js/main.a09f256b.js";
+        $style_url = MERCURY_GATEWAY_URL . "mercury-cash-react/build/static/css/main.d17b8e8c.css";
 
         wp_enqueue_script('woocommerce-mercury-qr', $script_url_qr, array('jquery'),  '1', true );
         wp_enqueue_script('woocommerce-mercury', $script_url, array('jquery'),  '1', true  );
@@ -291,11 +291,11 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
     }
 
     public function createTransaction(){
-        $uuid = filter_input(INPUT_POST, 'uuid') ?? null;
+        $email = filter_input(INPUT_POST, 'email') ?? null;
         $crypto = filter_input(INPUT_POST, 'crypto') ?? null;
         $currency = filter_input(INPUT_POST, 'currency') ?? null;
 
-        if($uuid !== null && $crypto !== null && $currency !== null) {
+        if($email !== null && $crypto !== null && $currency !== null) {
             $api_key = new APIKey($this->publishable_key, $this->private_key);
             $adapter = new Adapter($api_key, 'https://api-way.mercurydev.tk');
             $endpoint = new Transaction($adapter);
@@ -303,7 +303,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
 
             $crypto_name = $this->crypto[$crypto];
             $data = [
-                'email' => $uuid,
+                'email' => $email,
                 'crypto' => $crypto,
                 'fiat' => $currency,
                 'amount' => (float) WC()->cart->total,

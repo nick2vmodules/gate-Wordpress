@@ -54,7 +54,8 @@ class Status implements ResponseInterface
     /**
      * @var int
      */
-    protected $confirmations = null;
+    protected $confirmations = 0;
+
 
     /**
      * @return string
@@ -181,13 +182,13 @@ class Status implements ResponseInterface
 
     /**
      * @param string $user
-     *
+     * 
      * @return Status
      */
     public function setUser(string $user): Status
     {
         $this->user = $user;
-
+        
         return $this;
     }
 
@@ -200,21 +201,33 @@ class Status implements ResponseInterface
     }
 
     /**
-     * @return int
-     */
-    public function getConfirmations(): string
-    {
-        return $this->confirmations;
-    }
-
-    /**
      * @param string $status
      * @return Status
      */
     public function setStatus(string $status): Status
     {
         $this->status = $status;
+        
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getConfirmations(): int
+    {
+        return ($this->сonfirmations) ? $this->сonfirmations : 0;
+    }
+
+    /**
+     * @param int $сonfirmations
+     * @return Status
+     */
+    public function setConfirmations($сonfirmations): Status
+    {
+        $this->сonfirmations = ($сonfirmations) ? $сonfirmations : 0;
 
         return $this;
     }
+
 }
