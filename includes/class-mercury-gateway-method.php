@@ -62,6 +62,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
 
         $this->getMercuryCur();
 
+
         add_action('wp_footer', function(){
              print_r('<div id="mercury-cash"></div>');
         });
@@ -111,8 +112,6 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
 
 
     public function admin_options(){
-        parent::admin_options();
-
         if($this->publishable_key){
             $api_key = new APIKey($this->publishable_key, $this->private_key);
             $adapter = new Adapter($api_key, $this->api_url);
@@ -120,19 +119,31 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
 
             try {
                 $endpoint->status(1);
+                parent::admin_options();
             } catch (\GuzzleHttp\Exception\ServerException $e) {
                 $this->add_error("Wrong keys for integration");
                 $this->display_errors();
+                echo "<h2>" . $this->method_title . "</h2>"
+                    . "<p>" . $this->description . "</p>"
+                    . '<table class="form-table">' . $this->generate_settings_html( $this->get_form_fields(), false ) . '</table>';
             } catch (\GuzzleHttp\Exception\ClientException $e) {
                 $response = $e->getResponse();
                 if($response->getStatusCode() != 400) {
                     $this->add_error("Wrong keys for integration");
                 }
                 $this->display_errors();
-            } catch (Exception $e) {
-
+                echo "<h2>" . $this->method_title . "</h2>"
+                    . "<p>" . $this->description . "</p>"
+                    . '<table class="form-table">' . $this->generate_settings_html( $this->get_form_fields(), false ) . '</table>';
             }
+        } else {
+            $this->add_error("Empty key fields");
+            $this->display_errors();
+            echo "<h2>" . $this->method_title . "</h2>"
+                . "<p>" . $this->description . "</p>"
+                . '<table class="form-table">' . $this->generate_settings_html( $this->get_form_fields(), false ) . '</table>';
         }
+
     }
 
     /**
