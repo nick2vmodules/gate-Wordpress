@@ -1,24 +1,25 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => 'b037421f4cb7e673c374125697ad6dd0de3f4887',
+    'reference' => 'ff414825fa05819ab6869f992d76e0a935b774cc',
     'name' => 'mercury-cash/sdk',
   ),
   'versions' => 
   array (
     'guzzlehttp/guzzle' => 
     array (
-      'pretty_version' => '7.2.0',
-      'version' => '7.2.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
+        0 => '7.4.x-dev',
       ),
-      'reference' => '0aa74dfb41ae110835923ef10a9d803a22d50e79',
+      'reference' => 'de6f1e58e735754b888649495ed4cb9ae3b19589',
     ),
     'guzzlehttp/promises' => 
     array (
@@ -28,25 +29,26 @@
       array (
         0 => '1.4.x-dev',
       ),
-      'reference' => 'ddfeedfff2a52661429437da0702979f708e6ac6',
+      'reference' => '8e7d04f1f6450fef59366c399cfad4b9383aa30d',
     ),
     'guzzlehttp/psr7' => 
-    array (
-      'pretty_version' => '1.x-dev',
-      'version' => '1.9999999.9999999.9999999-dev',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'f47ece9e6e8ce74e3be04bef47f46061dc18c095',
-    ),
-    'mercury-cash/sdk' => 
     array (
       'pretty_version' => 'dev-master',
       'version' => 'dev-master',
       'aliases' => 
       array (
+        0 => '2.0.x-dev',
       ),
-      'reference' => 'b037421f4cb7e673c374125697ad6dd0de3f4887',
+      'reference' => '148492f9e2e1524317a8aa60875f5b59517a9374',
+    ),
+    'mercury-cash/sdk' => 
+    array (
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ff414825fa05819ab6869f992d76e0a935b774cc',
     ),
     'psr/http-client' => 
     array (
@@ -59,6 +61,23 @@
       'reference' => '22b2ef5687f43679481615605d7a15c557ce85b1',
     ),
     'psr/http-client-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '1.0',
+      ),
+    ),
+    'psr/http-factory' => 
+    array (
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
+      'aliases' => 
+      array (
+        0 => '1.0.x-dev',
+      ),
+      'reference' => '36fa03d50ff82abcae81860bdaf4ed9a1510c7cd',
+    ),
+    'psr/http-factory-implementation' => 
     array (
       'provided' => 
       array (
