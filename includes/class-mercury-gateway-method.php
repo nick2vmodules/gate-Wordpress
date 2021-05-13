@@ -57,6 +57,9 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
         $this->private_key = $this->testmode ? $this->get_option( 'test_private_key' ) : $this->get_option( 'private_key' );
         $this->publishable_key = $this->testmode ? $this->get_option( 'test_publishable_key' ) : $this->get_option( 'publishable_key' );
 
+        $this->api_url = $this->testmode ? "https://api-way.mercurydev.tk" : "https://api-way.mercury.cash";
+        $this->price_url = $this->testmode ? "https://prices.mercurydev.tk/prices" : "https://prices.mercury.cash/prices";
+
         $this->getMercuryCur();
 
         add_action('wp_footer', function(){
@@ -112,13 +115,12 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
 
         if($this->publishable_key){
             $api_key = new APIKey($this->publishable_key, $this->private_key);
-            $adapter = new Adapter($api_key, 'https://api-way.mercurydev.tk');
+            $adapter = new Adapter($api_key, $this->api_url);
             $endpoint = new Transaction($adapter);
 
             try {
                 $endpoint->status(1);
             } catch (\GuzzleHttp\Exception\ServerException $e) {
-                $response = $e->getResponse();
                 $this->add_error("Wrong keys for integration");
                 $this->display_errors();
             } catch (\GuzzleHttp\Exception\ClientException $e) {
@@ -238,7 +240,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
     public function getMercuryCur(){
 
         if(empty($this->mercury_currence)) {
-            $responce = wp_remote_get('https://api.mercury.cash/api/price');
+            $responce = wp_remote_get($this->price_url);
             $body = wp_remote_retrieve_body($responce);
             $body = json_decode($body, true);
             $this->mercury_currence = $body['data'];
@@ -278,7 +280,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
         if(filter_input(INPUT_POST, 'uuid')) {
             $uuid = filter_input(INPUT_POST, 'uuid');
             $api_key = new APIKey($this->publishable_key, $this->private_key);
-            $adapter = new Adapter($api_key, 'https://api-way.mercurydev.tk');
+            $adapter = new Adapter($api_key, $this->api_url);
             $endpoint = new Transaction($adapter);
 
             $status = $endpoint->status($uuid);
@@ -297,7 +299,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
 
         if($email !== null && $crypto !== null && $currency !== null) {
             $api_key = new APIKey($this->publishable_key, $this->private_key);
-            $adapter = new Adapter($api_key, 'https://api-way.mercurydev.tk');
+            $adapter = new Adapter($api_key, $this->api_url);
             $endpoint = new Transaction($adapter);
 
 
