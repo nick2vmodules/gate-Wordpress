@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'ff414825fa05819ab6869f992d76e0a935b774cc',
+    'reference' => '1c34a222bf914a10801b98504735d552d5df621a',
     'name' => 'mercury-cash/sdk',
   ),
   'versions' => 
@@ -72,7 +72,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'ff414825fa05819ab6869f992d76e0a935b774cc',
+      'reference' => '1c34a222bf914a10801b98504735d552d5df621a',
     ),
     'psr/http-client' => 
     array (

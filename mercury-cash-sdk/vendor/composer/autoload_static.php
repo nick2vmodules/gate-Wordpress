@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1e0ce798914f34525e2cd46a168e4dc9
+class ComposerStaticInit8650e3492683a9abccf45d2d5f0f9d5a
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -33,8 +33,8 @@ class ComposerStaticInit1e0ce798914f34525e2cd46a168e4dc9
     public static $prefixDirsPsr4 = array (
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -65,9 +65,9 @@ class ComposerStaticInit1e0ce798914f34525e2cd46a168e4dc9
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1e0ce798914f34525e2cd46a168e4dc9::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1e0ce798914f34525e2cd46a168e4dc9::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit1e0ce798914f34525e2cd46a168e4dc9::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8650e3492683a9abccf45d2d5f0f9d5a::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8650e3492683a9abccf45d2d5f0f9d5a::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit8650e3492683a9abccf45d2d5f0f9d5a::$classMap;
 
         }, null, ClassLoader::class);
     }
