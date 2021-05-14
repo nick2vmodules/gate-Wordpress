@@ -90,13 +90,13 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
         ) );
 
         // get currences
-        add_action( 'woocommerce_api_get_cur', array($this, 'get_currency'));
+        add_action( 'woocommerce_api_mercury-api-get-cur', array($this, 'get_currency'));
 
         // create and put transaction
-        add_action( 'woocommerce_api_create_transaction', array($this, 'createTransaction'));
+        add_action( 'woocommerce_api_mercury-api-transaction', array($this, 'createTransaction'));
 
         // check status
-        add_action( 'woocommerce_api_status', array($this, 'checkStatus'));
+        add_action( 'woocommerce_api_mercury-api-status', array($this, 'checkStatus'));
 
         // deleting paymentgateway if woo currency not exist in mercury currencies
         add_filter( 'woocommerce_available_payment_gateways', [$this, 'check_current_cur'] );
