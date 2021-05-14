@@ -5,8 +5,8 @@ if (typeof mercuryParam != "undefined") {
 }
 
 let sdk = new MercurySDK({
-    checkoutUrl: "/wc-api/mercury-api-transaction",
-    statusUrl: "/wc-api/mercury-api-status",
+    checkoutUrl: merParam.url + "/wc-api/mercury-api-transaction",
+    statusUrl: merParam.url + "/wc-api/mercury-api-status",
     checkStatusInterval: parseInt(merParam.time, 2),
     mount: "#mercury-cash",
     lang: "en",

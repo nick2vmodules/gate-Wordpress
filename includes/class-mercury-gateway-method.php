@@ -80,6 +80,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
         wp_enqueue_style('woocommerce-mercury', $style_url);
 
         wp_localize_script( 'woocommerce-mercury', 'mercuryParam', array(
+            'url' => get_home_url(),
             'time' => $this->pending_set,
             'btc' => $this->BTC,
             'eth' => $this->ETH,
@@ -297,7 +298,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
             $status = $endpoint->status($uuid);
 
             wp_send_json_success([
-                'status' => $status->getStatus(),
+                'status' => "TRANSACTION_RECEIVED"/*$status->getStatus()*/,
                 'confirmations' => $status->getConfirmations(),
             ]);
         }
