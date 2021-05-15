@@ -298,7 +298,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
             $status = $endpoint->status($uuid);
 
             wp_send_json_success([
-                'status' => "TRANSACTION_RECEIVED"/*$status->getStatus()*/,
+                'status' => $status->getStatus(),
                 'confirmations' => $status->getConfirmations(),
             ]);
         }
