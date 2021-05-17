@@ -27,8 +27,9 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
         $this->icon = ''; // URL of the icon that will be displayed on checkout page near your gateway name
         $this->has_fields = true; // in case you need a custom credit card form
         $this->method_title = 'Mercury Gateway';
-        $this->method_description = 'Description of mercury payment gateway'; // will be displayed on the options
-        // page
+
+        // will be displayed on the options page
+        $this->method_description = 'Description of mercury payment gateway';
 
         // gateways can support subscriptions, refunds, saved payment methods,
         // but in this tutorial we begin with simple payments
