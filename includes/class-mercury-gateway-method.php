@@ -258,7 +258,7 @@ class Mercury_Gateway_Method extends WC_Payment_Gateway
             $body = json_decode($body, true);
             $this->mercury_currence = $body['data'];
         }
-        //todo запрос на получение валюты
+        //todo request to ask supported currencies
         return $this->mercury_currence;
     }
 
