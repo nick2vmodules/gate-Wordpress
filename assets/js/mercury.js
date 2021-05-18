@@ -40,7 +40,7 @@ jQuery(function(jQuery){
             sdk.checkout(price, currency, mail);
 
             sdk.on("close", (obj) => {
-                if(obj.status && (obj.status === "TRANSACTION_APROVED" || obj.status === "TRANSACTION_RECEIVED")) {
+                if(obj.status && (obj.status === "TRANSACTION_APROVED" )) {
                     status = obj.status;
                     successCallback();
                 }
